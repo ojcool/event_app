@@ -28,7 +28,7 @@ export class ProfilePage {
     });
   }
 
-  updateName(){
+  updateName():void {
     const alert:Alert = this.alertCtrl.create({
       message: "Your first name & last name",
       inputs: [
@@ -56,11 +56,11 @@ export class ProfilePage {
     alert.present();
   }
 
-  updateDOB(birthDate:string){
+  updateDOB(birthDate:string):void {
     this.profileProvider.updateDOB(birthDate);
   }
 
-  updateEmail(){
+  updateEmail():void {
     let alert:Alert = this.alertCtrl.create({
       inputs: [
         {
@@ -92,7 +92,7 @@ export class ProfilePage {
     alert.present();
   }
 
-  updatePassword(){
+  updatePassword():void {
     let alert:Alert = this.alertCtrl.create({
       inputs: [
         {
