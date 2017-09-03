@@ -3,27 +3,27 @@ import firebase from 'firebase';
 
 @Injectable()
 export class EventProvider {
-  public userProfileRef:firebase.database.Reference;
+  public eventListRef:firebase.database.Reference;
 
   constructor() {
     firebase.auth().onAuthStateChanged( user => {
       if(user){
-        this.userProfileRef = firebase.database().ref(`/userProfile/${user.uid}`);
+        this.eventListRef = firebase.database().ref(`/userProfile/${user.uid}/eventList`);
       }
     });
   }
 
   getEventList():firebase.database.Reference {
-    return this.userProfileRef.child(`eventList`);
+    return this.eventListRef;
   }
 
   getEventDetail(eventId:string):firebase.database.Reference {
-    return this.userProfileRef.child(`eventList/${eventId}`);
+    return this.eventListRef.child(eventId);
   }
 
   createEvent(eventName:string, eventDate:string, eventPrice:number, eventCost:number):
   firebase.Promise<any> {
-    return this.userProfileRef.child(`eventList`).push({
+    return this.eventListRef.push({
       name: eventName,
       date: eventDate,
       price: eventPrice * 1,
@@ -34,9 +34,9 @@ export class EventProvider {
 
   addGuest(guestName:string, eventId:string, eventPrice:number, guestPicture:string = null):
   firebase.Promise<any> {
-    return this.userProfileRef.child(`eventList/${eventId}/guestList`).push({ guestName })
+    return this.eventListRef.child(`${eventId}/guestList`).push({ guestName })
       .then( newGuest => {
-        this.userProfileRef.child(`eventList/${eventId}`).transaction( event => {
+        this.eventListRef.child(eventId).transaction( event => {
           event.revenue += eventPrice;
           return event;
         });
@@ -44,8 +44,7 @@ export class EventProvider {
           firebase.storage().ref(`/guestProfile/${newGuest.key}/profilePicture.png`)
             .putString(guestPicture, 'base64', {contentType: 'image/png'})
             .then( savedPicture => {
-              this.userProfileRef
-              .child(`eventList/${eventId}/guestList/${newGuest.key}/profilePicture`)
+              this.eventListRef.child(`${eventId}/guestList/${newGuest.key}/profilePicture`)
               .set(savedPicture.downloadURL);
             });
         }

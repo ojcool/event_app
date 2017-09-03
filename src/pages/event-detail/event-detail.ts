@@ -27,13 +27,13 @@ export class EventDetailPage {
 
   addGuest(guestName:string):void {
     this.eventProvider.addGuest(guestName, this.currentEvent.id, this.currentEvent.price,
-      this.guestPicture).then( () => {
+      this.guestPicture).then( newGuest => {
       this.guestName = '';
       this.guestPicture = null;
     });
   }
 
-  takePicture(){
+  takePicture():void {
     this.cameraPlugin.getPicture({
       quality : 95,
       destinationType : this.cameraPlugin.DestinationType.DATA_URL,
@@ -49,9 +49,5 @@ export class EventDetailPage {
       console.log("ERROR -> " + JSON.stringify(error));
     });
   }
-
-
-
-
 
 }
