@@ -10,6 +10,7 @@ import { HomePage } from '../pages/home/home';
 import { AuthProvider } from '../providers/auth/auth';
 import { EventProvider } from '../providers/event/event';
 import { ProfileProvider } from '../providers/profile/profile';
+import {LocalNotifications} from '@ionic-native/local-notifications';
 
 class CameraMock extends Camera {
   getPicture(options){
@@ -43,7 +44,7 @@ class CameraMock extends Camera {
     {provide: Camera, useClass: CameraMock},
     AuthProvider,
     EventProvider,
-    ProfileProvider
+    ProfileProvider,LocalNotifications
   ]
 })
 export class AppModule {}

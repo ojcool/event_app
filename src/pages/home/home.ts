@@ -15,4 +15,6 @@ export class HomePage {
 
   goToList():void { this.navCtrl.push('EventListPage') }
 
+  goToSetting():void { this.navCtrl.push('SettingPage') }
+
 }
